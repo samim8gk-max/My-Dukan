@@ -18,13 +18,32 @@
     .animate-spin-fast {
       animation: spin-fast 0.65s linear infinite;
     }
-    ::-webkit-scrollbar { width: 0px; background: transparent; }
+    ::-webkit-scrollbar { width: 4px; height: 4px; }
+    ::-webkit-scrollbar-thumb { background: #cbd5e1; border-radius: 4px; }
+
+    /* Responsive Desktop Container adjustment */
+    @media (min-width: 768px) {
+      body {
+        background-color: #e5e7eb;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+      }
+      [data-purpose="mobile-screen-container"] {
+        border-radius: 24px;
+        border: 8px solid #1f2937;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+        height: 844px !important;
+        max-height: 90vh !important;
+      }
+    }
   </style>
   <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
 </head>
 <body class="flex justify-center items-center h-screen overflow-hidden">
 <!-- BEGIN: MobileDeviceFrame -->
-<div class="w-full max-w-md h-full max-h-[844px] bg-white shadow-2xl flex flex-col justify-between relative overflow-hidden" data-purpose="mobile-screen-container">
+<div class="w-full max-w-md h-full bg-white shadow-2xl flex flex-col justify-between relative overflow-hidden" data-purpose="mobile-screen-container">
   
   <!-- BEGIN: TopNavigationBar -->
   <header class="w-full bg-white border-b border-gray-100 flex-shrink-0 z-30 relative" data-purpose="top-navigation-bar">
@@ -142,7 +161,7 @@
   <!-- END: TopNavigationBar -->
 
   <!-- BEGIN: MainContentArea -->
-  <main class="flex-1 bg-white flex flex-col relative" data-purpose="main-content">
+  <main class="flex-1 bg-white flex flex-col relative overflow-hidden" data-purpose="main-content">
     
     <!-- TAB 1: SALE / POINT OF SALE -->
     <div class="tab-content w-full h-full flex flex-col overflow-hidden relative" id="tab-sale">
@@ -154,65 +173,71 @@
           <p class="text-[10px] text-gray-400 mt-1">Enter Product ID or Name above</p>
         </div>
 
-        <div class="hidden opacity-0 translate-y-6 flex-1 flex-col justify-between overflow-y-auto py-1 space-y-2 transition-all duration-500 ease-out z-10 bg-white" id="product-details-container">
-          <div class="rounded-xl p-3 bg-white shadow-sm space-y-2.5">
-            <div class="flex justify-between items-start border-b border-gray-100 pb-2">
-              <div>
-                <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded" id="detail-product-sku">SKU: 100201</span>
-                <h3 class="font-extrabold text-lg text-gray-900 mt-1.5 leading-tight" id="detail-product-name">Premium Sugar (चीनी)</h3>
-                <p class="text-xs text-gray-500 mt-0.5" id="detail-product-desc">Refined Loose Sugar</p>
+        <!-- Detailed Product Input Form (Fix applied: scrollable form & sticky bottom save button) -->
+        <div class="hidden opacity-0 translate-y-6 flex-1 flex-col justify-between overflow-hidden transition-all duration-500 ease-out z-10 bg-white" id="product-details-container">
+          
+          <!-- Scrollable Fields Area -->
+          <div class="flex-1 overflow-y-auto pr-0.5 space-y-2 py-1">
+            <div class="rounded-xl p-3 bg-white shadow-sm border border-gray-100 space-y-2.5">
+              <div class="flex justify-between items-start border-b border-gray-100 pb-2">
+                <div>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-blue-600 bg-blue-50 px-2 py-0.5 rounded" id="detail-product-sku">SKU: 100201</span>
+                  <h3 class="font-extrabold text-lg text-gray-900 mt-1.5 leading-tight" id="detail-product-name">Premium Sugar (चीनी)</h3>
+                  <p class="text-xs text-gray-500 mt-0.5" id="detail-product-desc">Refined Loose Sugar</p>
+                </div>
+                <button class="text-gray-400 hover:text-red-500 p-1" id="card-dismiss-btn" type="button">
+                  <span class="material-symbols-outlined text-base">close</span>
+                </button>
               </div>
-              <button class="text-gray-400 hover:text-red-500 p-1" id="card-dismiss-btn" type="button">
-                <span class="material-symbols-outlined text-base">close</span>
-              </button>
-            </div>
 
-            <div class="grid grid-cols-2 gap-2 text-xs">
-              <div class="bg-gray-50 border border-gray-200 rounded-lg p-2">
-                <label class="block text-[10px] font-semibold text-gray-600 mb-1">Quantity</label>
-                <div class="flex items-center justify-between">
-                  <button class="w-6 h-6 bg-white border border-gray-300 rounded flex items-center justify-center text-gray-700 font-bold hover:bg-gray-100 active:scale-95 text-xs" id="qty-minus-btn" type="button">-</button>
-                  <input class="w-14 text-center font-bold text-sm bg-transparent border-0 p-0 focus:ring-0 text-gray-800" id="product-qty-input" min="0" step="0.001" type="number" value="1.000"/>
-                  <button class="w-6 h-6 bg-white border border-gray-300 rounded flex items-center justify-center text-gray-700 font-bold hover:bg-gray-100 active:scale-95 text-xs" id="qty-plus-btn" type="button">+</button>
+              <div class="grid grid-cols-2 gap-2 text-xs">
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-2">
+                  <label class="block text-[10px] font-semibold text-gray-600 mb-1">Quantity</label>
+                  <div class="flex items-center justify-between">
+                    <button class="w-6 h-6 bg-white border border-gray-300 rounded flex items-center justify-center text-gray-700 font-bold hover:bg-gray-100 active:scale-95 text-xs" id="qty-minus-btn" type="button">-</button>
+                    <input class="w-14 text-center font-bold text-sm bg-transparent border-0 p-0 focus:ring-0 text-gray-800" id="product-qty-input" min="0" step="0.001" type="number" value="1.000"/>
+                    <button class="w-6 h-6 bg-white border border-gray-300 rounded flex items-center justify-center text-gray-700 font-bold hover:bg-gray-100 active:scale-95 text-xs" id="qty-plus-btn" type="button">+</button>
+                  </div>
+                </div>
+                
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-2">
+                  <label class="block text-[10px] font-semibold text-gray-600 mb-1">Unit</label>
+                  <select class="w-full text-xs font-semibold text-gray-800 bg-white border border-gray-300 rounded py-1 px-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500" id="product-unit-select">
+                    <option value="kg">kg</option>
+                    <option value="gram">gram</option>
+                    <option value="pcs">pcs</option>
+                    <option value="liter">liter</option>
+                    <option value="ml">ml</option>
+                  </select>
+                </div>
+                
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-2 flex flex-col justify-center">
+                  <label class="block text-[10px] font-semibold text-gray-600 mb-1">Product ID</label>
+                  <div class="flex items-center text-sm font-bold text-gray-800 bg-white border border-gray-300 rounded px-2 py-1" id="detail-product-id">
+                    100201
+                  </div>
+                </div>
+                
+                <div class="bg-gray-50 border border-gray-200 rounded-lg p-2">
+                  <label class="block text-[10px] font-semibold text-gray-600 mb-1">Price (Rate)</label>
+                  <div class="flex items-center border border-gray-300 bg-white rounded px-2 py-1">
+                    <span class="text-xs font-bold text-gray-600 mr-1">₹</span>
+                    <input class="w-full text-right font-bold text-sm bg-transparent border-none p-0 focus:ring-0 text-gray-800" id="product-rate-input" step="0.5" type="number" value="120.00"/>
+                  </div>
                 </div>
               </div>
-              
-              <div class="bg-gray-50 border border-gray-200 rounded-lg p-2">
-                <label class="block text-[10px] font-semibold text-gray-600 mb-1">Unit</label>
-                <select class="w-full text-xs font-semibold text-gray-800 bg-white border border-gray-300 rounded py-1 px-1.5 focus:outline-none focus:ring-1 focus:ring-blue-500" id="product-unit-select">
-                  <option value="kg">kg</option>
-                  <option value="gram">gram</option>
-                  <option value="pcs">pcs</option>
-                  <option value="liter">liter</option>
-                  <option value="ml">ml</option>
-                </select>
-              </div>
-              
-              <div class="bg-gray-50 border border-gray-200 rounded-lg p-2 flex flex-col justify-center">
-                <label class="block text-[10px] font-semibold text-gray-600 mb-1">Product ID</label>
-                <div class="flex items-center text-sm font-bold text-gray-800 bg-white border border-gray-300 rounded px-2 py-1" id="detail-product-id">
-                  100201
-                </div>
-              </div>
-              
-              <div class="bg-gray-50 border border-gray-200 rounded-lg p-2">
-                <label class="block text-[10px] font-semibold text-gray-600 mb-1">Price (Rate)</label>
-                <div class="flex items-center border border-gray-300 bg-white rounded px-2 py-1">
-                  <span class="text-xs font-bold text-gray-600 mr-1">₹</span>
-                  <input class="w-full text-right font-bold text-sm bg-transparent border-none p-0 focus:ring-0 text-gray-800" id="product-rate-input" step="0.5" type="number" value="120.00"/>
-                </div>
-              </div>
-            </div>
 
-            <span id="margin-amount-display" class="hidden"></span>
+              <span id="margin-amount-display" class="hidden"></span>
 
-            <div class="bg-blue-50 border border-blue-200 rounded-lg px-2.5 py-2 flex justify-between items-center transition-all duration-300">
-              <span class="text-xs font-bold text-blue-900">Subtotal</span>
-              <span class="text-base font-extrabold text-blue-800" id="product-subtotal-display">₹ 120.00</span>
+              <div class="bg-blue-50 border border-blue-200 rounded-lg px-2.5 py-2 flex justify-between items-center transition-all duration-300">
+                <span class="text-xs font-bold text-blue-900">Subtotal</span>
+                <span class="text-base font-extrabold text-blue-800" id="product-subtotal-display">₹ 120.00</span>
+              </div>
             </div>
           </div>
 
-          <div class="w-full px-1 pb-1 mt-auto">
+          <!-- Sticky Bottom Save Button -->
+          <div class="w-full px-1 py-2 bg-white flex-shrink-0 border-t border-gray-100">
             <button class="w-full py-3 bg-blue-600 hover:bg-blue-700 active:scale-[0.99] text-white font-bold rounded-lg border-2 border-black shadow-md flex items-center justify-center gap-2 text-base transition-all" id="sale-save-btn">
               <span class="material-symbols-outlined text-[20px]">save</span>
               <span>Save</span>
@@ -237,7 +262,7 @@
             <button class="text-gray-500 hover:text-blue-600 transition-colors flex items-center justify-center" title="Khata (Ledger)">
               <span class="material-symbols-outlined text-[22px]">menu_book</span>
             </button>
-            <!-- Print Button triggers Full-Screen Invoice View -->
+            <!-- Print Button triggers Invoice View -->
             <button id="print-invoice-btn" class="text-gray-500 hover:text-blue-600 transition-colors flex items-center justify-center" title="Print Invoice">
               <span class="material-symbols-outlined text-[22px]">print</span>
             </button>
@@ -847,7 +872,7 @@
     openCartBtn.addEventListener('click', () => { cartScreen.classList.remove('translate-x-full'); });
     closeCartBtn.addEventListener('click', () => { cartScreen.classList.add('translate-x-full'); });
 
-    // --- 4. FULL SCREEN INVOICE SCREEN LOGIC & XML DOWNLOAD (Requirement 1, 3 & 5) ---
+    // --- 4. FULL SCREEN INVOICE SCREEN LOGIC & XML DOWNLOAD ---
     const invoiceScreen = document.getElementById('invoice-screen');
     const printInvoiceBtn = document.getElementById('print-invoice-btn');
     const closeInvoiceBtn = document.getElementById('close-invoice-btn');
@@ -888,7 +913,6 @@
       invGst.textContent = '₹ ' + gst.toFixed(2);
       invTotal.textContent = '₹ ' + grandTotal.toFixed(2);
 
-      // Slide in Full Screen Invoice
       invoiceScreen.classList.remove('translate-x-full');
     }
 
@@ -899,7 +923,6 @@
       invoiceScreen.classList.add('translate-x-full');
     });
 
-    // XML Download Logic for Android Device / WebView
     downloadInvoiceXmlBtn.addEventListener('click', function() {
       if (cart.length === 0) return;
 
@@ -908,7 +931,6 @@
       let gst = subtotal * 0.05;
       let grandTotal = subtotal + gst;
 
-      // Build XML Content structure
       let xmlContent = '<?xml version="1.0" encoding="UTF-8"?>\n';
       xmlContent += '<Invoice>\n';
       xmlContent += '  <StoreName>ABC General Store</StoreName>\n';
@@ -929,31 +951,25 @@
 
       xmlContent += '  </Items>\n';
       xmlContent += `  <SubTotal>${subtotal.toFixed(2)}</SubTotal>\n`;
-      xmlContent += `  <GST> ${gst.toFixed(2)}</GST>\n`;
+      xmlContent += `  <GST>${gst.toFixed(2)}</GST>\n`;
       xmlContent += `  <TotalAmount>${grandTotal.toFixed(2)}</TotalAmount>\n`;
       xmlContent += '</Invoice>';
 
-      // Create Blob using text/xml MIME type
       const blob = new Blob([xmlContent], { type: 'application/xml;charset=utf-8;' });
-      
-      // Create temporary file URL using URL.createObjectURL(blob)
       const blobUrl = URL.createObjectURL(blob);
       
-      // Trigger download using <a download> method for mobile device / WebView
       const link = document.createElement("a");
       link.href = blobUrl;
       link.download = "POS_Invoice_000123.xml";
       document.body.appendChild(link);
       link.click();
 
-      // Clean up blob URL object after short timeout
       setTimeout(() => {
         document.body.removeChild(link);
         URL.revokeObjectURL(blobUrl);
       }, 100);
     });
 
-    // Helper to sanitize XML special characters
     function escapeXML(str) {
       return str.replace(/[<>&'"]/g, function (c) {
         switch (c) {
